@@ -5,8 +5,6 @@
 #include<conio.h>
 using namespace std;
 #define INIT_POS 1
-//-----------------------------------------
-//�ܼ� ������ Ư�� ��ġ�� Ŀ���� �̵��ϴ� �Լ�.
 void GotoXY(int x, int y)
 {
 	COORD pos;
@@ -15,14 +13,12 @@ void GotoXY(int x, int y)
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
 }
 
-//�ܼ� â ũ��� ������ �����ϴ� �Լ�.
 void SetConsoleView()
 {
 	system("mode con:cols=65 lines=10");
 	system("title Card Matching Game. by BlockDmask.");
 }
 
-//Ű���� �Է� ���� �� �Էµ� Ű���带 ��ȯ�ϴ� �Լ�.
 int GetKeyDown()
 {
 	if (_kbhit() != 0)
@@ -31,21 +27,18 @@ int GetKeyDown()
 	}
 	return 0;
 }
-//-----------------------------------------
-//2���� �迭�� �̷���� ��
+
 const int originMap[4][4] = { {1, 6, 1, 8},
 								{6, 2, 5, 4},
 								{7, 2, 5, 4},
 								{8, 3, 3, 7} };
 
-//������ ����ü
 struct Pos
 {
 	int x;
 	int y;
 };
 
-//Ű���� �Է��� ������ ���� enum
 enum KEYBOARD
 {
 	IS_ARROW = 224,
@@ -56,7 +49,7 @@ enum KEYBOARD
 	SPACE = 32,
 };
 
-//������ �����س��� enum
+
 enum COLOR
 {
 	GREEN = 10,
@@ -67,35 +60,35 @@ enum COLOR
 	WHITE,
 };
 
-//���� �Ŵ��� Ŭ����
+
 class GameManager
 {
 private:
-	char questionMap[4][4];	//���߰� �ִ� ��.
-	Pos player;				//�÷��̾� Ŀ�� ��ġ.
-	Pos flipPos[2];			//������ ī�� ��ġ ����.
-	int flipCount;			//������ ī�� ����.
-	int spaceCount;			//������ Ƚ��.
-	int matchedCardCount;	//���� ī�� ����.
+	char questionMap[4][4];	
+	Pos player;				
+	Pos flipPos[2];			
+	int flipCount;		
+	int spaceCount;		
+	int matchedCardCount;	
 public:
 	void StartGame()
 	{
-		Init();		//���� �ʱ�ȭ
-		DrawBack();	//��� �׸���
+		Init();		
+		DrawBack();	
 
-		//���� ���� ����
+		
 		int key = 0;
 		while (true)
 		{
-			key = GetKeyDown();	//Ű �Է� �޴� �Լ�
+			key = GetKeyDown();	
 			if (key == KEYBOARD::IS_ARROW)
 			{
-				//ȭ��ǥ��.
+			
 				MovePos();
 			}
 			if (key == KEYBOARD::SPACE)
 			{
-				//�����̽�
+			
 				FlipCard();
 			}
 			//draw
@@ -105,14 +98,13 @@ public:
 		}
 	}
 
-	//�� �ʱ�ȭ
 	void Init()
 	{
 		for (int y = 0; y < 4; ++y)
 		{
 			for (int x = 0; x < 4; ++x)
 			{
-				questionMap[y][x] = '?';	//����ǥ�� �� ����
+				questionMap[y][x] = '?';	
 			}
 		}
 		player.x = 0;
@@ -122,7 +114,6 @@ public:
 		matchedCardCount = 0;
 	}
 
-	//ī�� ������ �Լ�
 	void FlipCard()
 	{
 		if (questionMap[player.y][player.x] != '?') return;
@@ -133,13 +124,13 @@ public:
 		++flipCount;
 	}
 
-	//Ŀ���� ��ġ �̵�
+
 	void MovePos()
 	{
 		GotoXY(INIT_POS + (player.x * 3), INIT_POS + (player.y * 2) + 1);
 		printf("  ");
 
-		//Ű���� �Է��� �޾Ƽ�, �ش� ��ġ�� �̵��� �����ش�.
+		
 		switch (_getch())
 		{
 		case KEYBOARD::LEFT:
@@ -208,13 +199,11 @@ public:
 			char c = '?';
 			if (originMap[flipPos[0].y][flipPos[0].x] == originMap[flipPos[1].y][flipPos[1].x])
 			{
-				//������
 				c = originMap[flipPos[0].y][flipPos[0].x] + '0';
 				++matchedCardCount;
 			}
 			else
 			{
-				//�ٸ���.
 				Sleep(500);
 			}
 			questionMap[flipPos[0].y][flipPos[0].x] = c;
@@ -263,7 +252,6 @@ public:
 	}
 };
 
-//�����Լ�
 int main(void)
 {
 	SetConsoleView();
