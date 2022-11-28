@@ -1,5 +1,3 @@
-//Dev. BlockDMask
-//Blog. https://blockdmask.tistory.com/
 #include<iostream>
 #include<Windows.h>
 #include<conio.h>
